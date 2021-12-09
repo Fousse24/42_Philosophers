@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 08:44:19 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/01 19:39:44 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/07 17:56:34 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ char	**ft_split(char const *s, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int		ft_toupper(int c);
 int		ft_tolower(int c);
+
+// Array utilities
+int		ft_array_size(void **arr);
 
 // Memory management
 void	*ft_calloc(size_t num, size_t size);

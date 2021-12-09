@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 13:15:33 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/07 13:26:23 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/07 18:39:23 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,24 @@ t_fork	**create_fork_array(int n)
 }
 
 // Place the forks in-between each philosophers.
-void	assign_forks(t_fork **forks, t_dlst *philos)
+void	assign_forks(t_fork **forks, t_philo **philos)
 {
 	t_philo	*philo_right;
-	t_philo	*philo;
 	int		i;
+	int		size;
 
-	if (!forks || !philos || !philos->content)
+	if (!forks || !philos)
 		return ;
+	size = ft_array_size((void **)philos);
 	i = 0;
-	while (forks[i] && philos)
+	while (size > 0 && forks[i] && philos[i])
 	{
-		philo = (t_philo *)philos->content;
-		if (philos->next)
-		{
-			philo_right = philos->next->content;
-			philo_right->left_fork = forks[i];
-		}
-		philo->right_fork = forks[i++];
-		philos = philos->next;
+		if (i == size - 1)
+			philo_right = philos[0];
+		else
+			philo_right = philos[i + 1];
+		philo_right->left_fork = forks[i];
+		philos[i]->right_fork = forks[i];
+		i++;
 	}
 }

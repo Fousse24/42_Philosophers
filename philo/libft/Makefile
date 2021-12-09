@@ -6,7 +6,7 @@
 #    By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 10:07:12 by sfournie          #+#    #+#              #
-#    Updated: 2021/11/25 18:37:16 by sfournie         ###   ########.fr        #
+#    Updated: 2021/12/07 17:56:55 by sfournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ _SRC_BASE	= ft_isalpha.c ft_isdigit.c ft_isnumber.c ft_isalnum.c \
 		ft_memcpy.c ft_memccpy.c ft_memchr.c ft_memcmp.c \
 		ft_free.c \
 		ft_array_clear.c ft_free_array.c ft_free_split.c \
+		ft_array_size.c \
 		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \

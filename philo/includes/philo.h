@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:42:18 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/07 13:59:09 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/09 18:38:05 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 typedef pthread_mutex_t		p_mutex;
 typedef struct timeval		t_time;
 typedef enum philo_state	e_state;
+typedef enum mutex_type		e_mutex;
 typedef struct s_diner		t_diner;
 typedef struct s_philo		t_philo;
 typedef struct s_fork		t_fork;
@@ -39,6 +40,12 @@ enum philo_state
 	DEAD
 };
 
+enum mutex_type
+{
+	M_PRINT,
+	M_FORK
+};
+
 struct s_diner
 {
 	int			philo_n;
@@ -49,7 +56,7 @@ struct s_diner
 	int			diner_done;
 	t_fork		**all_forks;
 	t_time		start_time;
-	t_dlst		*philo_list;
+	t_philo		**philos;
 	p_mutex		*mutex;
 	pthread_t	thread;
 };
@@ -61,8 +68,11 @@ struct s_philo
 	t_fork		*right_fork;
 	t_fork		*left_fork;
 	int			times_eaten;
-	int			time_left;
+	t_time		time_sleep;
+	t_time		time_eat;
+	t_time		time_death;
 	pthread_t	thread;
+	t_time		last_run;
 
 };
 
@@ -72,13 +82,18 @@ struct s_fork
 	void	*owner;
 };
 
-/* Philosophers's list and nodes initialization */
-void	init_philo_list(t_dlst **list, int philo_n);
+/* Philosophers */
+void	init_philo_array(t_philo **arr, int philo_n);
 void	init_philo(t_philo *philo, int id);
 t_philo	*create_philo(int id);
-void	link_head_tail(t_dlst **list);
-t_dlst	*get_philo_node(t_dlst *lst, int id);
-t_philo	*get_philo(t_dlst *lst, int id);
+
+/* Philosophers' state changes */
+void	philo_manager(t_philo *philo);
+void	philo_eat(t_philo *philo);
+void	philo_think(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_die(t_philo *philo);
+void	philo_print_state(t_philo *philo);
 
 /* Diner */
 t_diner	*get_diner(void);
@@ -86,20 +101,27 @@ void	init_diner(t_diner *diner);
 void	*philo_dinertime(void *philo_ptr);
 void	*waiter_dinertime(void *diner_ptr);
 void	print_diner_info(t_diner *diner);
+int		diner_ask_for_forks(t_philo *philo, t_diner *diner);
 
 /* Time utilities */
 long long	get_ms_time_since(t_time since);
-t_time		get_start_time(void);
+t_time		get_start_time(void);;
 
 /* Threads functions */
-void	start_philo_threads(t_dlst *philo_list);
+void	start_philo_threads(t_philo **philos);
 void	start_diner_thread(t_diner *diner);
+void	thread_cooldown(void);
+
+/* Mutex */
+p_mutex	*get_mutex(e_mutex type);
+void	init_mutexes(void);
+void	destroy_mutexes(void);
 
 /* Forks */
 void	init_fork(t_fork *fork, int id);
 t_fork	*create_fork(void *owner, int id);
 t_fork	**create_fork_array(int n);
-void	assign_forks(t_fork **forks, t_dlst *philos);
+void	assign_forks(t_fork **forks, t_philo **philos);
 
 
 #endif

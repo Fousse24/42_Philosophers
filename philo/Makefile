@@ -6,7 +6,7 @@
 #    By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 20:58:38 by sfournie          #+#    #+#              #
-#    Updated: 2021/12/07 13:58:46 by sfournie         ###   ########.fr        #
+#    Updated: 2021/12/09 18:41:32 by sfournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ C_MAIN	= $(CC) $(CFLAGS) $(INCS) $(L_LFT)
 NAME	= philo
 
 # Mains
-MAIN	= $(D_MAIN)/philo.c
+MAIN	= $(D_MAIN)/main.c
 
 # Directories
 D_SRCS	= srcs
@@ -43,9 +43,11 @@ HEAD_LFT	= $(D_LFT)/includes/libft.h
 HEADS		= $(HEAD_PHILO) $(HEAD_LFT)
 
 # Sources
-_SRCS	= philo_list.c ft_time.c threads.c philo_states.c \
-		philo_list_utils.c philo_fork.c dinertime_thread.c \
-		diner.c
+_SRCS	= threads.c mutex.c dinertime_thread.c \
+		philo.c \
+		philo_fork.c philo_states.c \
+		diner.c \
+		ft_time.c 
 SRCS	= $(patsubst %, $(D_SRCS)/%, $(_SRCS))
 
 # Objects

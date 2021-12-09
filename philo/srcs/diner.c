@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/07 13:44:56 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/07 18:43:37 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,34 @@ void	init_diner(t_diner *diner)
 	diner->all_forks = NULL;
 	diner->start_time = get_start_time();
 	diner->diner_done = 0;
-	diner->philo_list = NULL;
+	diner->philos = NULL;
 }
 
 void	print_diner_info(t_diner *diner)
 {
-	t_dlst	*philos;
-	t_philo	*philo;
-	t_philo	*next_philo;
+	t_philo	**philos;
+	int		size;
 	int		i;
 
-	if (!diner || !diner->philo_list)
+	if (!diner)
 		return ;
-	philos = diner->philo_list;
+	philos = diner->philos;
+	size = ft_array_size((void **)philos);
 	i = 0;
-	while (philos && i++ < diner->philo_n)
+	while (philos && philos[i])
 	{
-		philo = (t_philo *)philos->content;
-		if (!philos->next)
-			break;
-		printf("Philo %d has :\n", philo->id);
-		printf("philo %d to his left ", ((t_philo *)philos->prev->content)->id);
-		printf("and philo %d to his right\n", ((t_philo *)philos->next->content)->id);
-		printf("fork %d to his left ", philo->left_fork->id);
-		printf("and fork %d to his right\n\n", philo->right_fork->id);
-		philos = philos->next;
+		printf("Philo %d has :\n", philos[i]->id);
+		if (i == 0)
+			printf("philo %d to his left ", philos[size - 1]->id);
+		else
+			printf("philo %d to his left ", philos[i - 1]->id);
+		if (i == size - 1)
+			printf("philo %d to his right ", philos[0]->id);
+		else
+			printf("philo %d to his right ", philos[i + 1]->id);
+		printf("\nfork %d to his left ", philos[i]->left_fork->id);
+		printf("and fork %d to his right\n\n", philos[i]->right_fork->id);
+		i++;
 	}
 	printf("There is %d philosophers ", diner->philo_n);
 }
