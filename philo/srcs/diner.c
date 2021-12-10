@@ -6,11 +6,28 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/07 18:43:37 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/09 19:56:07 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"philo.h"
+
+int	is_diner_done(t_diner *diner)
+{
+	t_philo	**philos;
+
+	if (diner)
+		philos = diner->philos;
+	if (!diner || !philos)
+		return (-1);
+	while (*philos)
+	{
+		if ((*philos)->state == DEAD)
+			return (1);
+		philos++;
+	}
+	return (0);
+}
 
 t_diner	*get_diner(void)
 {

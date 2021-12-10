@@ -6,7 +6,7 @@
 #    By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 20:58:38 by sfournie          #+#    #+#              #
-#    Updated: 2021/12/09 18:41:32 by sfournie         ###   ########.fr        #
+#    Updated: 2021/12/09 19:50:03 by sfournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ HEADS		= $(HEAD_PHILO) $(HEAD_LFT)
 _SRCS	= threads.c mutex.c dinertime_thread.c \
 		philo.c \
 		philo_fork.c philo_states.c \
-		diner.c \
+		diner.c diner_utils.c\
 		ft_time.c 
 SRCS	= $(patsubst %, $(D_SRCS)/%, $(_SRCS))
 
@@ -57,7 +57,7 @@ OBJS	= $(patsubst %, $(D_OBJS)/%, $(_OBJS))
 # vpath
 vpath %.c $(D_SRCS)
 
-$(D_OBJS)/%.o :  %.c
+$(D_OBJS)/%.o :  %.c $(HEADS)
 		 @ $(C_OBJS)
 
 # Rules/Recipes

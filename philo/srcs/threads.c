@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:22:02 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/09 16:18:06 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/09 19:09:13 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	start_diner_thread(t_diner *diner)
 
 void	thread_cooldown(void)
 {
-	usleep(10);
+	usleep(50);
 }
