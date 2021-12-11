@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/09 19:56:07 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/10 18:02:30 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	init_diner(t_diner *diner)
 		return ;
 	diner->philo_n = PHILO_N;
 	diner->philo_n_eat = PHILO_N_EAT;
-	diner->philo_t_die = PHILO_T_DIE;
-	diner->philo_t_eat = PHILO_T_EAT;
-	diner->philo_t_sleep = PHILO_T_SLEEP;
+	diner->t_die = PHILO_T_DIE * 1000;
+	diner->t_eat = PHILO_T_EAT * 1000;
+	diner->t_sleep = PHILO_T_SLEEP * 1000;
 	diner->all_forks = NULL;
 	diner->start_time = get_start_time();
 	diner->diner_done = 0;

@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:51:34 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/09 19:56:49 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:14:49 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,32 @@ t_time	get_start_time(void)
 	return (start);
 }
 
-long	get_ms_time_since(t_time since)
+void	adjust_time(t_time *now, t_time *since, long threshold)
+{
+	long long	diff;
+	long long	now_n;
+	long long	since_n;
+
+	now_n = time_to_long(*now);
+	since_n = time_to_long(*since);
+	diff = now_n - since_n;
+	if (diff > threshold)
+		now_n -= diff % threshold;
+	*now = long_to_time(now_n);
+
+}
+
+void	set_to_current_time(t_philo *philo, t_time *time, long threshold)
 {
 	t_time	now;
-	long	time_since;
-	long	time_now;
 
-	gettimeofday(&now, NULL);
-	time_since = (since.tv_sec * 1000000) + since.tv_usec;
-	time_now = (now.tv_sec * 1000000) + now.tv_usec;
-	return ((time_now - time_since) / 1000);
+	copy_time(&philo->start, &now);
+	adjust_time(&now, time, threshold);
+	*time = now;
+	philo->timestamp = get_time_between(get_start_time(), *time);
+}
+
+void	copy_time(t_time *src, t_time *dest)
+{
+	*dest = long_to_time(time_to_long(*src));
 }

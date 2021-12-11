@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/10 16:22:26 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:11:29 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	philo_manager(t_philo *philo)
 {
-	if (get_ms_time_since(philo->time_death) >= PHILO_T_DIE)
-		philo_die(philo);
 	if (philo->state == SLEEPING)
 	{
-		if (get_ms_time_since(philo->time_sleep) >= PHILO_T_SLEEP)
+		if (get_time_between(philo->time_sleep, philo->start) >= get_t_sleep())
 			philo_think(philo);
 	}
-	if (philo->state == THINKING)
+	else if (philo->state == THINKING)
 	{
 		if (!pthread_mutex_lock(get_mutex(M_FORK)))
 		{	
@@ -30,11 +28,13 @@ void	philo_manager(t_philo *philo)
 			pthread_mutex_unlock(get_mutex(M_FORK));
 		}
 	}
-	if (philo->state == EATING)
+	else if (philo->state == EATING)
 	{
-		if (get_ms_time_since(philo->time_eat) >= PHILO_T_EAT)
+		if (get_time_between(philo->time_eat, philo->start) >= get_t_eat())
 			philo_sleep(philo);
 	}
+	else if (get_time_between(philo->time_death, philo->start) >= get_t_die())
+		philo_die(philo);
 }
 
 void	*philo_dinertime(void *philo_ptr)
@@ -47,8 +47,9 @@ void	*philo_dinertime(void *philo_ptr)
 	{	
 		gettimeofday(&philo->start, NULL);
 		philo_manager(philo);
-		// while (get_ms_time_since(philo->start) < 10)
+		// while (get_time_since(philo->start) < 10000)
 		//  	continue;
+		// usleep(50);
 	}
 	return (0);
 }

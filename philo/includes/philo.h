@@ -6,7 +6,7 @@
 /*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:42:18 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/10 16:21:26 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:15:18 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "../libft/includes/libft.h"
 
 # define PHILO_N 5
-# define PHILO_T_DIE 150
+# define PHILO_T_DIE 151
 # define PHILO_T_EAT 50
 # define PHILO_T_SLEEP 100
 # define PHILO_N_EAT -1
@@ -47,9 +47,9 @@ enum e_mutex
 struct s_diner
 {
 	int			philo_n;
-	int			philo_t_die;
-	int			philo_t_eat;
-	int			philo_t_sleep;
+	long long		t_die;
+	long long		t_eat;
+	long long		t_sleep;
 	int			philo_n_eat;
 	int			diner_done;
 	t_fork		**all_forks;
@@ -63,6 +63,7 @@ struct s_philo
 {
 	int			id;
 	int			state;
+	long long 	timestamp;
 	t_fork		*right_fork;
 	t_fork		*left_fork;
 	int			times_eaten;
@@ -104,8 +105,19 @@ int		is_diner_done(t_diner *diner);
 int		diner_ask_for_forks(t_diner *diner, t_philo *philo);
 
 /* Time utilities */
-long	get_ms_time_since(t_time since);
-t_time	get_start_time(void);
+long long	get_time_since(t_time since);
+long long	get_time_between(t_time early, t_time later);
+t_time		get_start_time(void);
+void		adjust_time(t_time *now, t_time *since, long threshold);
+void		set_to_current_time(t_philo *philo, t_time *time, long threshold);
+long long	time_to_long(t_time time);
+t_time		long_to_time(long long ms);
+void		copy_time(t_time *src, t_time *dest);
+
+/* Time limits for philosophers states */
+int	get_t_sleep(void);
+int	get_t_eat(void);
+int	get_t_die(void);
 
 /* Threads functions */
 void	start_philo_threads(t_philo **philos);
