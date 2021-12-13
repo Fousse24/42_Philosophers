@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:42:18 by sfournie          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2021/12/10 19:15:18 by sfournie         ###   ########.fr       */
+=======
+/*   Updated: 2021/12/13 14:44:16 by sfournie         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +22,15 @@
 # include <sys/time.h>
 # include "../libft/includes/libft.h"
 
+<<<<<<< Updated upstream
 # define PHILO_N 5
 # define PHILO_T_DIE 151
 # define PHILO_T_EAT 50
+=======
+# define PHILO_N 20
+# define PHILO_T_DIE 1000
+# define PHILO_T_EAT 200
+>>>>>>> Stashed changes
 # define PHILO_T_SLEEP 100
 # define PHILO_N_EAT -1
 
