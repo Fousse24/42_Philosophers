@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_time_limits.c                                  :+:      :+:    :+:   */
+/*   ft_time_offset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:51:34 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 12:18:12 by sfournie         ###   ########.fr       */
+/*   Created: 2021/12/13 11:59:19 by sfournie          #+#    #+#             */
+/*   Updated: 2021/12/13 14:32:50 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"philo.h"
 
-long long	get_t_die(void)
+void get_offsets(int state, int *offset, int *pre_offset)
 {
-	t_diner *diner;
-
-	diner = get_diner();
-	return (diner->t_die);
-}
-
-long long	get_t_sleep(void)
-{
-	t_diner *diner;
-
-	diner = get_diner();
-	return (diner->t_sleep);
-}
-
-long long	get_t_eat(void)
-{
-	t_diner *diner;
-
-	diner = get_diner();
-	return (diner->t_eat);
+	if (state == EATING)
+	{
+		*offset = get_t_eat();
+		*pre_offset = get_t_sleep();
+	}
+	else if (state == SLEEPING)
+	{
+		*offset = get_t_eat();
+		*pre_offset = get_t_sleep();
+	}
+	else if (state == THINKING)
+	{
+		*offset = 0;
+		*pre_offset = 0;
+	}
+	else if (state == DEAD)
+		*offset = get_t_die();
 }

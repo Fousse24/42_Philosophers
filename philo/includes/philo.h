@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 15:42:18 by sfournie          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2021/12/10 19:15:18 by sfournie         ###   ########.fr       */
-=======
-/*   Updated: 2021/12/13 14:44:16 by sfournie         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Created: 2021/12/13 15:14:03 by sfournie          #+#    #+#             */
+/*   Updated: 2021/12/13 17:49:24 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +18,14 @@
 # include <sys/time.h>
 # include "../libft/includes/libft.h"
 
-<<<<<<< Updated upstream
-# define PHILO_N 5
-# define PHILO_T_DIE 151
-# define PHILO_T_EAT 50
-=======
-# define PHILO_N 20
-# define PHILO_T_DIE 1000
-# define PHILO_T_EAT 200
->>>>>>> Stashed changes
+
+# define PHILO_N 10
+# define PHILO_T_DIE 400
+# define PHILO_T_EAT 80
 # define PHILO_T_SLEEP 100
+# define STAMP_OFFSET 60
 # define PHILO_N_EAT -1
+# define DINER_WAIT 300
 
 typedef pthread_mutex_t		t_mutex;
 typedef struct timeval		t_time;
@@ -56,17 +49,21 @@ enum e_mutex
 
 struct s_diner
 {
-	int			philo_n;
+	int				philo_n;
 	long long		t_die;
 	long long		t_eat;
 	long long		t_sleep;
-	int			philo_n_eat;
-	int			diner_done;
-	t_fork		**all_forks;
-	t_time		start_time;
-	t_philo		**philos;
-	t_mutex		*mutex;
-	pthread_t	thread;
+	int				philo_n_eat;
+	int				diner_done;
+	t_fork			**all_forks;
+	long long		time_delay;
+	long long		iter;
+	t_time			start_time;
+	t_time			cur_time;
+	t_time			last_time;
+	t_philo			**philos;
+	t_mutex			*mutex;
+	pthread_t		thread;
 };
 
 struct s_philo
@@ -97,11 +94,8 @@ void	init_philo(t_philo *philo, int id);
 t_philo	*create_philo(int id);
 
 /* Philosophers' state changes */
-void	philo_manager(t_philo *philo);
-void	philo_eat(t_philo *philo);
-void	philo_think(t_philo *philo);
-void	philo_sleep(t_philo *philo);
-void	philo_die(t_philo *philo);
+void	philo_state_manager(t_philo *philo);
+void	philo_change_state(t_philo *philo, int state);
 void	philo_print_state(t_philo *philo, int state);
 
 /* Diner */
@@ -113,6 +107,9 @@ void	print_diner_info(t_diner *diner);
 int		is_allowed_to_eat(t_diner *diner, t_philo *philo);
 int		is_diner_done(t_diner *diner);
 int		diner_ask_for_forks(t_diner *diner, t_philo *philo);
+void	fork_check(t_diner *diner);
+void	assign_time(t_diner *diner);
+t_time	*get_diner_time(void);
 
 /* Time utilities */
 long long	get_time_since(t_time since);
@@ -123,11 +120,13 @@ void		set_to_current_time(t_philo *philo, t_time *time, long threshold);
 long long	time_to_long(t_time time);
 t_time		long_to_time(long long ms);
 void		copy_time(t_time *src, t_time *dest);
+long long	create_t_stamp(t_time time, int offset, int pre_offset);
+void		get_offsets(int state, int *offset, int *pre_offset);
 
 /* Time limits for philosophers states */
-int	get_t_sleep(void);
-int	get_t_eat(void);
-int	get_t_die(void);
+long long	get_t_sleep(void);
+long long	get_t_eat(void);
+long long	get_t_die(void);
 
 /* Threads functions */
 void	start_philo_threads(t_philo **philos);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+         #
+#    By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 20:58:38 by sfournie          #+#    #+#              #
-#    Updated: 2021/12/10 17:25:55 by sfournie         ###   ########.fr        #
+#    Updated: 2021/12/13 12:08:41 by sfournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ _SRCS	= threads.c mutex.c dinertime_thread.c \
 		philo.c \
 		philo_fork.c philo_states.c \
 		diner.c diner_utils.c\
-		ft_time.c ft_time_math.c get_time_limits.c
+		ft_time.c ft_time_math.c get_time_limits.c ft_time_offset.c
 SRCS	= $(patsubst %, $(D_SRCS)/%, $(_SRCS))
 
 # Objects

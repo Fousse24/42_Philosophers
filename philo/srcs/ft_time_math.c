@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_time_math.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:51:34 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/10 18:31:29 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/13 15:56:03 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,3 @@ t_time	long_to_time(long long n)
 	time.tv_usec = n % 1000000;
 	return (time);
 }
-
-

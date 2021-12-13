@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   diner.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/10 18:02:30 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:06:57 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	init_diner(t_diner *diner)
 	diner->t_sleep = PHILO_T_SLEEP * 1000;
 	diner->all_forks = NULL;
 	diner->start_time = get_start_time();
+	diner->time_delay = 0;
+	diner->iter = 0;
 	diner->diner_done = 0;
 	diner->philos = NULL;
 }
