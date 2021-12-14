@@ -6,49 +6,47 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 18:13:33 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:06:57 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"philo.h"
 
+int		philo_can_act(t_philo *philo)
+{
+	t_diner *diner;
+	t_philo	**philos;
+
+	diner = get_diner();
+	if (!diner || !philo || !diner->philos)
+		return (0);
+	philos = diner->philos;
+	while (*philos)
+	{
+		if ((*philos)->next_action < philo->next_action)
+			return (0);
+		philos++;
+	}
+	return (1);
+}
+
 void	*philo_dinertime(void *philo_ptr)
 {
 	t_philo	*philo;
+	t_diner *diner;
 
 	philo = (t_philo *)philo_ptr;
-	gettimeofday(&philo->time_death, NULL);
-	gettimeofday(&philo->time_eat, NULL);
-	gettimeofday(&philo->cur_time, NULL);
-	philo->timer_die = get_t_eat();
+	diner = get_diner();
+	philo->next_death = diner->start_time_usec + get_t_die();
+	philo_set_next_act(philo, philo->next_meal);
 	while (philo->state != DEAD)
 	{	
-		philo->last_frame = get_last_frame(philo->cur_time);
-		gettimeofday(&philo->cur_time, NULL);
-		gettimeofday(&philo->start, NULL);
-		// copy_time(get_diner_time(), &philo->start);
-		philo_state_manager(philo);
-		gettimeofday(&philo->last_time, NULL);
-		
+		// if (philo_can_act(philo))
+			philo_state_manager(philo);
+		// else
+			usleep(THREAD_CD);
 	}
 	return (0);
-}
-
-void	adjust_diner_time(t_diner *diner)
-{
-	long long	n_current;
-	long long	n_start;
-	long long	diff;
-
-	n_start = time_to_long(get_start_time());
-	n_current = time_to_long(diner->cur_time);
-	diff = n_current - n_start;
-	if (diff > DINER_WAIT * diner->iter)
-		diner->time_delay = (diff)  - (DINER_WAIT * diner->iter);
-	// printf("| %lld - %lld - %lld |", diff, diner->iter, n_current - diner->time_delay);
-	diner->cur_time = long_to_time(n_current - diner->time_delay);
-	diner->iter++;
-
 }
 
 void	*waiter_dinertime(void *diner_ptr)
@@ -57,16 +55,18 @@ void	*waiter_dinertime(void *diner_ptr)
 	int		wait;
 
 	diner = (t_diner *)diner_ptr;
+	diner->start_time = get_start_time();
+	diner->start_time_usec = time_to_long(diner->start_time);
+	diner->cur_meal = diner->start_time_usec;
+	diner_first_service(diner);
+	start_philo_threads(diner->philos);
 	while (!diner->diner_done)
 	{
-		gettimeofday(&diner->cur_time, NULL);
-		adjust_diner_time(diner);
-		fork_check(diner);
 		if (is_diner_done(diner))
 		{
 			diner->diner_done = 1;
 		}
-		usleep(DINER_WAIT);
+		usleep(THREAD_CD);
 	}
 	printf("\nwe're done !");
 	return (0);

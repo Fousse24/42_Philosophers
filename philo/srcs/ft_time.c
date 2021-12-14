@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:51:34 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 16:04:00 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/13 22:56:51 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,12 @@ t_time	get_start_time(void)
 	return (start);
 }
 
-void	adjust_time(t_time *now, t_time *since, long threshold)
+long long	get_cur_time(void)
 {
-	long long	diff;
-	long long	now_n;
-	long long	since_n;
+	t_time now;
 
-	now_n = time_to_long(*now);
-	since_n = time_to_long(*since);
-	diff = now_n - since_n;
-	if (diff > threshold && threshold != 0)
-		now_n = now_n - (diff - threshold);
-	*now = long_to_time(now_n);
-
-}
-
-void	set_to_current_time(t_philo *philo, t_time *time, long threshold)
-{
-	t_time	now;
-
-	if (!time)
-		return ;
 	gettimeofday(&now, NULL);
-	// adjust_time(&now, &philo->start, threshold);
-	copy_time(&philo->start, time);
+	return (time_to_long(now));
 }
 
 void	copy_time(t_time *src, t_time *dest)

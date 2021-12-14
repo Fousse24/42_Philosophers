@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 21:06:58 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 18:12:12 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:20:45 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,72 @@
 
 void	philo_state_manager(t_philo *philo)
 {
-	if (philo->state == SLEEPING)
+	long long	time;
+
+	time = get_cur_time();
+	// pthread_mutex_lock(get_mutex(M_PHILO));
+	if (time >= philo->next_death)
 	{
-		philo->timer_sleep -= philo->last_frame;
-		if (philo->timer_sleep <= 0)
-			philo_change_state(philo, THINKING);
-	}
-	while (philo->state == THINKING)
-	{
-		if (philo->left_fork->owner == philo && philo->right_fork->owner == philo)
+		if (philo->next_death <= philo->next_action)
 		{
-			philo_change_state(philo, EATING);
-			copy_time(&philo->time_eat, &philo->time_death);
-		}
-		else if (get_time_between(philo->time_death, philo->start) >= get_t_die())
 			philo_change_state(philo, DEAD);
+			return ;
+		}
 	}
-	philo->timer_die -= philo->last_frame;
-	if (philo->state == EATING)
+	if (philo->state == SLEEPING && time >= philo->next_think)
+		philo_change_state(philo, THINKING);
+	if (philo->state == THINKING && time >= philo->next_meal)
 	{
-		philo->timer_eat -= philo->last_frame;
-		if (philo->timer_eat <= 0)
-			philo_change_state(philo, SLEEPING);
+		// pthread_mutex_unlock(get_mutex(M_PHILO));
+		if (get_meal(get_diner(), philo) && time >= philo->next_meal)
+			philo_change_state(philo, EATING);
+		// pthread_mutex_lock(get_mutex(M_PHILO));
+		
 	}
-	if (philo->timer_die <= 0)
-		philo_change_state(philo, DEAD);
+	if (philo->state == EATING && time >= philo->next_sleep)
+		philo_change_state(philo, SLEEPING);
+	// pthread_mutex_unlock(get_mutex(M_PHILO));
+}
+
+void	philo_set_next_act(t_philo *philo, long long time)
+{
+	if (!philo)
+		return ;
+	philo->next_action = time;
+	if (philo->next_death < time)
+		philo->next_action = philo->next_death;
 }
 
 void	philo_change_state(t_philo *philo, int state)
 {
-	t_time	*state_time;
-
-	if (!philo)
-		return ;
-	state_time = &philo->start;
 	philo->state = state;
 	if (state == EATING)
 	{
-		state_time = &philo->time_eat;
-		philo->timer_eat = get_t_eat();
-		philo->timer_die = get_t_die();
+		philo->timestamp = philo->next_meal - time_to_long(get_start_time());
+		philo->next_sleep = philo->next_meal + get_t_eat();
+		philo->next_death = philo->next_meal + get_t_die();
+		if (get_t_eat() < get_t_sleep())
+			philo->next_meal += get_t_eat() + get_t_sleep();
+		else
+			philo->next_meal += get_t_eat() * 2;
+		philo_set_next_act(philo, philo->next_sleep);
 		philo->times_eaten++;
 	}
 	else if (state == SLEEPING)
 	{
-		state_time = &philo->time_sleep;
+		philo->timestamp = philo->next_sleep - time_to_long(get_start_time());
+		philo->next_think = philo->next_sleep + get_t_sleep();
+		philo_set_next_act(philo, philo->next_think);
 		philo->left_fork->owner = NULL;
-		philo->timer_sleep = get_t_sleep();
 		philo->right_fork->owner = NULL;
 	}
-	if (state != EATING)
-		set_to_current_time(philo, state_time, 0);
-	// philo->timestamp = create_t_stamp(*state_time);
-	philo->timestamp = get_time_between(get_start_time(), *state_time);
+	else if (state == THINKING)
+	{
+		philo->timestamp = philo->next_think - time_to_long(get_start_time());
+		philo_set_next_act(philo, philo->next_meal);
+	}
+	else if (state == DEAD)
+		philo->timestamp = philo->next_death - time_to_long(get_start_time());
 	philo_print_state(philo, state);
 }
 
@@ -74,8 +87,8 @@ void	philo_print_state(t_philo *philo, int state)
 {
 	if (!philo)
 		return ;
-	while (pthread_mutex_lock(get_mutex(M_PRINT)))
-		thread_cooldown();
+	pthread_mutex_lock(get_mutex(M_PRINT));
+	usleep(THREAD_CD);
 	printf("\n");
 	if (state == THINKING)
 		printf("%lld %d is thinking", philo->timestamp / 1000, philo->id);

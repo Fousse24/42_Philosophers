@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:51:34 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 18:12:42 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/13 22:35:00 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,4 @@ t_time	long_to_time(long long n)
 	time.tv_sec = n / 1000000;
 	time.tv_usec = n % 1000000;
 	return (time);
-}
-
-long long	get_last_frame(t_time early)
-{
-	t_time		now;
-	long long	time_early;
-	long long	time_later;
-
-	gettimeofday(&now, NULL);
-	time_early = time_to_long(early);
-	time_later = time_to_long(now);
-	return (time_later - time_early);
 }

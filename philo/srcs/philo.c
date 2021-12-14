@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:17:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 18:11:56 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:18:12 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ void	init_philo(t_philo *philo, int id)
 	philo->left_fork = 0;
 	philo->right_fork = 0;
 	philo->times_eaten = 0;
-	philo->timer_die = 0;
-	philo->timer_eat = 0;
-	philo->timer_sleep = 0;
-	philo->time_sleep = get_start_time();
-	philo->time_eat = get_start_time();
-	philo->time_death = get_start_time();
+	philo->next_death = 0;
+	philo->next_think = 0;
+	philo->next_meal = 0;
+	philo->next_sleep = 0;
+	philo->next_action = 0;
 	philo->state = THINKING;
 }
 
@@ -70,4 +69,5 @@ void	init_philo_array(t_philo **arr, int philo_n)
 		arr[i] = create_philo(i + 1);
 		i++;
 	}
+	arr[i] = NULL;
 }

@@ -6,7 +6,7 @@
 #    By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 20:58:38 by sfournie          #+#    #+#              #
-#    Updated: 2021/12/13 12:08:41 by sfournie         ###   ########.fr        #
+#    Updated: 2021/12/13 22:50:21 by sfournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS	= -Wall -Wextra
 DFLAGS	= -g
 
 C_OBJS	= $(CC) $(CFLAGS) $(INCS) -c $< -o $@
-C_MAIN	= $(CC) $(CFLAGS) $(INCS) $(L_LFT)
+C_MAIN	= $(CC) $(CFLAGS) $(INCS)
 
 # NAME
 NAME	= philo
@@ -29,25 +29,20 @@ D_SRCS	= srcs
 D_INCS	= includes
 D_OBJS	= objs
 D_MAIN	= main
-D_LFT	= libft
 
-INCS	= -I$(D_INCS) -I$(D_LFT)/includes
-
-# Libraries
-L_LFT	= $(D_LFT)/libft.a
-MK_LFT		= make -C $(D_LFT)
+INCS	= -I$(D_INCS)
 
 # Headers
 HEAD_PHILO	= $(D_INCS)/philo.h
-HEAD_LFT	= $(D_LFT)/includes/libft.h
-HEADS		= $(HEAD_PHILO) $(HEAD_LFT)
+HEADS		= $(HEAD_PHILO)
 
 # Sources
 _SRCS	= threads.c mutex.c dinertime_thread.c \
 		philo.c \
 		philo_fork.c philo_states.c \
 		diner.c diner_utils.c\
-		ft_time.c ft_time_math.c get_time_limits.c ft_time_offset.c
+		ft_time.c ft_time_math.c get_time_limits.c \
+		utils.c
 SRCS	= $(patsubst %, $(D_SRCS)/%, $(_SRCS))
 
 # Objects
@@ -63,25 +58,20 @@ $(D_OBJS)/%.o :  %.c $(HEADS)
 # Rules/Recipes
 all		: $(NAME)
 
-$(NAME)	: $(L_LFT) $(HEADS) $(SRCS) $(D_OBJS) $(OBJS) $(MAIN)
+$(NAME)	: $(HEADS) $(SRCS) $(D_OBJS) $(OBJS) $(MAIN)
 		@ $(C_MAIN) $(MAIN) $(OBJS) -o $(NAME)
 		# $(shell echo "Compiling philosophers done!")
 		# $(shell echo "Executable is : $(NAME)")
-
-$(L_LFT): $(D_LFT)
-		$(MK_LFT) all
 
 $(D_OBJS):
 		@ mkdir $(D_OBJS)
 
 clean	: 
 		@ rm -rf $(D_OBJS)
-		@ $(MK_LFT) clean
 		# $(shell echo "Cleaning done!")
 
 fclean	: clean
 		@ rm -f $(NAME)
-		@ $(MK_LFT) fclean
 
 re		: fclean all
 
@@ -89,7 +79,6 @@ debug	: _debug $(NAME)
 
 _debug	:
 		$(eval CFLAGS=$(CFLAGS) $(DFLAGS))
-		@ $(MK_LFT) debug
 
 
 .PHONY	: all clean fclean re debug

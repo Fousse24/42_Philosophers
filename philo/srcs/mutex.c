@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfournie <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:56:57 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/09 19:57:16 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/13 23:01:50 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,17 @@ t_mutex	*get_mutex(int type)
 {
 	static t_mutex	mutex_print;
 	static t_mutex	mutex_fork;
+	static t_mutex	mutex_meal;
+	static t_mutex	mutex_philo;
 
 	if (type == M_PRINT)
 		return (&mutex_print);
 	if (type == M_FORK)
 		return (&mutex_fork);
+	if (type == M_MEAL)
+		return (&mutex_meal);
+	if (type == M_PHILO)
+		return (&mutex_philo);
 	else
 		return (0);
 }
@@ -36,6 +42,10 @@ void	init_mutexes(void)
 	mutex = get_mutex(M_PRINT);
 	pthread_mutex_init(mutex, NULL);
 	mutex = get_mutex(M_FORK);
+	pthread_mutex_init(mutex, NULL);
+	mutex = get_mutex(M_MEAL);
+	pthread_mutex_init(mutex, NULL);
+	mutex = get_mutex(M_PHILO);
 	pthread_mutex_init(mutex, NULL);
 }
 
