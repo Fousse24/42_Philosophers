@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 21:06:58 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/14 00:20:45 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/14 14:11:36 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	philo_state_manager(t_philo *philo)
 	long long	time;
 
 	time = get_cur_time();
-	// pthread_mutex_lock(get_mutex(M_PHILO));
+	pthread_mutex_lock(get_mutex(M_PHILO));
 	if (time >= philo->next_death)
 	{
 		if (philo->next_death <= philo->next_action)
@@ -30,15 +30,15 @@ void	philo_state_manager(t_philo *philo)
 		philo_change_state(philo, THINKING);
 	if (philo->state == THINKING && time >= philo->next_meal)
 	{
-		// pthread_mutex_unlock(get_mutex(M_PHILO));
+		pthread_mutex_unlock(get_mutex(M_PHILO));
 		if (get_meal(get_diner(), philo) && time >= philo->next_meal)
 			philo_change_state(philo, EATING);
-		// pthread_mutex_lock(get_mutex(M_PHILO));
+		pthread_mutex_lock(get_mutex(M_PHILO));
 		
 	}
 	if (philo->state == EATING && time >= philo->next_sleep)
 		philo_change_state(philo, SLEEPING);
-	// pthread_mutex_unlock(get_mutex(M_PHILO));
+	pthread_mutex_unlock(get_mutex(M_PHILO));
 }
 
 void	philo_set_next_act(t_philo *philo, long long time)
@@ -58,10 +58,7 @@ void	philo_change_state(t_philo *philo, int state)
 		philo->timestamp = philo->next_meal - time_to_long(get_start_time());
 		philo->next_sleep = philo->next_meal + get_t_eat();
 		philo->next_death = philo->next_meal + get_t_die();
-		if (get_t_eat() < get_t_sleep())
-			philo->next_meal += get_t_eat() + get_t_sleep();
-		else
-			philo->next_meal += get_t_eat() * 2;
+		set_next_meal(get_diner(), philo);
 		philo_set_next_act(philo, philo->next_sleep);
 		philo->times_eaten++;
 	}
@@ -97,7 +94,10 @@ void	philo_print_state(t_philo *philo, int state)
 	else if (state == EATING)
 		printf("%lld %d is eating", philo->timestamp / 1000, philo->id);
 	else if (state == DEAD)
+	{
 		printf("%lld %d died", philo->timestamp / 1000, philo->id);
+		get_diner()->diner_done = 1;
+	}
 	if (state != DEAD)
 		pthread_mutex_unlock(get_mutex(M_PRINT));
 }

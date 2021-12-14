@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/14 00:06:57 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:42:57 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void	*waiter_dinertime(void *diner_ptr)
 	start_philo_threads(diner->philos);
 	while (!diner->diner_done)
 	{
-		if (is_diner_done(diner))
-		{
-			diner->diner_done = 1;
-		}
+		// if (is_diner_done(diner))
+		// {
+			// diner->diner_done = 1;
+		// }
 		usleep(THREAD_CD);
 	}
 	printf("\nwe're done !");

@@ -6,11 +6,29 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/14 00:42:07 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:46:13 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"philo.h"
+
+int		philo_is_odd(t_philo *philo)
+{
+	t_diner *diner;
+	t_philo	**philos;
+
+	diner = get_diner();
+	if (!diner | !philo | !diner->philos | diner->philo_n % 2 != 1)
+		return (0);
+	philos = diner->philos;
+	while (*philos)
+	{
+		if ((*philos)->times_eaten > philo->times_eaten)
+			return (0);
+		philos++;
+	}
+	return (1);
+}
 
 void	give_forks(t_philo *philo)
 {
@@ -36,21 +54,4 @@ int	is_allowed_to_eat(t_diner *diner, t_philo *philo)
 	if (philo->left_fork->owner || philo->right_fork->owner)
 		return (0);
 	return (1);
-}
-
-int	get_meal(t_diner *diner, t_philo *philo)
-{
-	int	ret;
-
-	ret = 0;
-	pthread_mutex_lock(get_mutex(M_MEAL));
-	pthread_mutex_lock(get_mutex(M_FORK));
-	if (is_allowed_to_eat(diner, philo))
-	{
-		give_forks(philo);
-		ret = 1;
-	}
-	pthread_mutex_unlock(get_mutex(M_FORK));
-	pthread_mutex_unlock(get_mutex(M_MEAL));
-	return (ret);
 }

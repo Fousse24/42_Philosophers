@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/14 00:18:22 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/14 13:59:25 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_diner(t_diner *diner)
 	diner->all_forks = NULL;
 	diner->n_meal = diner->philo_n / 2;
 	diner->diner_done = 0;
+	diner->next_odd_id = 0;
 	diner->philos = NULL;
 }
 
@@ -50,7 +51,10 @@ void	diner_first_service(t_diner *diner)
 	diner->n_meal = diner->philo_n / 2;
 	diner->next_meal = diner->cur_meal + get_t_eat();
 	if (*philos)
+	{
 		(*philos)->next_meal = diner->next_meal + get_t_eat();
+		diner->next_odd_id = diner->philo_n - 1;
+	}
 }
 
 int	is_diner_done(t_diner *diner)
