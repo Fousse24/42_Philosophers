@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 17:51:29 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:13:33 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,17 @@ void	*philo_dinertime(void *philo_ptr)
 	philo = (t_philo *)philo_ptr;
 	gettimeofday(&philo->time_death, NULL);
 	gettimeofday(&philo->time_eat, NULL);
+	gettimeofday(&philo->cur_time, NULL);
+	philo->timer_die = get_t_eat();
 	while (philo->state != DEAD)
 	{	
-		copy_time(get_diner_time(), &philo->start);
+		philo->last_frame = get_last_frame(philo->cur_time);
+		gettimeofday(&philo->cur_time, NULL);
+		gettimeofday(&philo->start, NULL);
+		// copy_time(get_diner_time(), &philo->start);
 		philo_state_manager(philo);
-		// while (get_time_since(philo->start) < 1000)
-		//  	continue;
+		gettimeofday(&philo->last_time, NULL);
+		
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 21:06:58 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 17:42:56 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:12:12 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	philo_state_manager(t_philo *philo)
 {
 	if (philo->state == SLEEPING)
 	{
-		if (get_time_between(philo->time_sleep, philo->start) >= get_t_sleep())
+		philo->timer_sleep -= philo->last_frame;
+		if (philo->timer_sleep <= 0)
 			philo_change_state(philo, THINKING);
 	}
 	while (philo->state == THINKING)
@@ -29,12 +30,14 @@ void	philo_state_manager(t_philo *philo)
 		else if (get_time_between(philo->time_death, philo->start) >= get_t_die())
 			philo_change_state(philo, DEAD);
 	}
+	philo->timer_die -= philo->last_frame;
 	if (philo->state == EATING)
 	{
-		if (get_time_between(philo->time_eat, philo->start) >= get_t_eat())
+		philo->timer_eat -= philo->last_frame;
+		if (philo->timer_eat <= 0)
 			philo_change_state(philo, SLEEPING);
 	}
-	if (get_time_between(philo->time_eat, philo->start) >= get_t_die())
+	if (philo->timer_die <= 0)
 		philo_change_state(philo, DEAD);
 }
 
@@ -49,12 +52,15 @@ void	philo_change_state(t_philo *philo, int state)
 	if (state == EATING)
 	{
 		state_time = &philo->time_eat;
+		philo->timer_eat = get_t_eat();
+		philo->timer_die = get_t_die();
 		philo->times_eaten++;
 	}
 	else if (state == SLEEPING)
 	{
 		state_time = &philo->time_sleep;
 		philo->left_fork->owner = NULL;
+		philo->timer_sleep = get_t_sleep();
 		philo->right_fork->owner = NULL;
 	}
 	if (state != EATING)

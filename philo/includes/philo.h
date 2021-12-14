@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:14:03 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 17:49:24 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:11:42 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,13 @@ struct s_philo
 	t_time		time_sleep;
 	t_time		time_eat;
 	t_time		time_death;
+	long long	timer_eat;
+	long long	timer_sleep;
+	long long	timer_die;
+	long long	last_frame;
 	pthread_t	thread;
+	t_time		cur_time;
+	t_time		last_time;
 	t_time		start;
 
 };
@@ -114,6 +120,7 @@ t_time	*get_diner_time(void);
 /* Time utilities */
 long long	get_time_since(t_time since);
 long long	get_time_between(t_time early, t_time later);
+long long	get_last_frame(t_time early);
 t_time		get_start_time(void);
 void		adjust_time(t_time *now, t_time *since, long threshold);
 void		set_to_current_time(t_philo *philo, t_time *time, long threshold);
