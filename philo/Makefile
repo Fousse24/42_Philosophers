@@ -6,7 +6,7 @@
 #    By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 20:58:38 by sfournie          #+#    #+#              #
-#    Updated: 2021/12/16 15:36:41 by sfournie         ###   ########.fr        #
+#    Updated: 2021/12/16 20:12:26 by sfournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,6 @@ debug	: _debug $(NAME)
 
 _debug	:
 		$(eval CFLAGS=$(CFLAGS) $(DFLAGS))
-
 
 .PHONY	: all clean fclean re debug
 		
