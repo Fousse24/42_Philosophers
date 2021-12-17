@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:51:34 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 22:35:00 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:42:54 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ long long	get_time_between(t_time early, t_time later)
 long long	time_to_long(t_time time)
 {
 	long long	n;
-	
+
 	n = (time.tv_sec * 1000000) + time.tv_usec;
 	return (n);
 }
@@ -41,7 +41,7 @@ long long	time_to_long(t_time time)
 t_time	long_to_time(long long n)
 {
 	t_time	time;
-	
+
 	time.tv_sec = n / 1000000;
 	time.tv_usec = n % 1000000;
 	return (time);

@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 21:06:58 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/14 14:11:36 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:59:54 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,21 @@ void	philo_state_manager(t_philo *philo)
 	{
 		if (philo->next_death <= philo->next_action)
 		{
-			philo_change_state(philo, DEAD);
+			philo_change_state(philo, DEAD, philo->next_death);
 			return ;
 		}
 	}
 	if (philo->state == SLEEPING && time >= philo->next_think)
-		philo_change_state(philo, THINKING);
+		philo_change_state(philo, THINKING, philo->next_think);
 	if (philo->state == THINKING && time >= philo->next_meal)
 	{
 		pthread_mutex_unlock(get_mutex(M_PHILO));
 		if (get_meal(get_diner(), philo) && time >= philo->next_meal)
-			philo_change_state(philo, EATING);
+			philo_change_state(philo, EATING, philo->next_meal);
 		pthread_mutex_lock(get_mutex(M_PHILO));
-		
 	}
 	if (philo->state == EATING && time >= philo->next_sleep)
-		philo_change_state(philo, SLEEPING);
+		philo_change_state(philo, SLEEPING, philo->next_sleep);
 	pthread_mutex_unlock(get_mutex(M_PHILO));
 }
 
@@ -50,12 +49,12 @@ void	philo_set_next_act(t_philo *philo, long long time)
 		philo->next_action = philo->next_death;
 }
 
-void	philo_change_state(t_philo *philo, int state)
+void	philo_change_state(t_philo *philo, int state, long long stamp)
 {
 	philo->state = state;
+	philo->timestamp = stamp - time_to_long(get_start_time());
 	if (state == EATING)
 	{
-		philo->timestamp = philo->next_meal - time_to_long(get_start_time());
 		philo->next_sleep = philo->next_meal + get_t_eat();
 		philo->next_death = philo->next_meal + get_t_die();
 		set_next_meal(get_diner(), philo);
@@ -64,19 +63,13 @@ void	philo_change_state(t_philo *philo, int state)
 	}
 	else if (state == SLEEPING)
 	{
-		philo->timestamp = philo->next_sleep - time_to_long(get_start_time());
 		philo->next_think = philo->next_sleep + get_t_sleep();
 		philo_set_next_act(philo, philo->next_think);
 		philo->left_fork->owner = NULL;
 		philo->right_fork->owner = NULL;
 	}
 	else if (state == THINKING)
-	{
-		philo->timestamp = philo->next_think - time_to_long(get_start_time());
 		philo_set_next_act(philo, philo->next_meal);
-	}
-	else if (state == DEAD)
-		philo->timestamp = philo->next_death - time_to_long(get_start_time());
 	philo_print_state(philo, state);
 }
 
@@ -92,12 +85,18 @@ void	philo_print_state(t_philo *philo, int state)
 	else if (state == SLEEPING)
 		printf("%lld %d is sleeping", philo->timestamp / 1000, philo->id);
 	else if (state == EATING)
+	{
 		printf("%lld %d is eating", philo->timestamp / 1000, philo->id);
+		if (get_diner()->time_eaten == get_diner()->philo_n_eat)
+			get_diner()->diner_done = 1;
+	}
+	else if (state == FORK)
+		printf("%lld %d has taken a fork", philo->timestamp / 1000, philo->id);
 	else if (state == DEAD)
 	{
 		printf("%lld %d died", philo->timestamp / 1000, philo->id);
 		get_diner()->diner_done = 1;
 	}
-	if (state != DEAD)
+	if (state != DEAD && !get_diner()->diner_done)
 		pthread_mutex_unlock(get_mutex(M_PRINT));
 }

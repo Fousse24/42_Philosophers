@@ -6,11 +6,26 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 22:43:48 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 22:48:22 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:08:44 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"philo.h"
+
+void	*ft_free_array(void **ptr, void (f)(void *))
+{
+	int	i;
+
+	i = 0;
+	if (ptr == NULL)
+		return (NULL);
+	if (ptr != NULL && ptr[i] != NULL && f != NULL)
+	{
+		f(ptr[i]);
+	}
+	free(ptr);
+	return (NULL);
+}
 
 /* 
 * Count the amount of element in a NULL-terminated array.

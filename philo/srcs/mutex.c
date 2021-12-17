@@ -6,16 +6,12 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:56:57 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 23:01:50 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 14:11:22 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"philo.h"
 
-/*
-* Mutex id are :
-*
-*/
 t_mutex	*get_mutex(int type)
 {
 	static t_mutex	mutex_print;
@@ -56,5 +52,9 @@ void	destroy_mutexes(void)
 	mutex = get_mutex(M_PRINT);
 	pthread_mutex_destroy(mutex);
 	mutex = get_mutex(M_FORK);
+	pthread_mutex_destroy(mutex);
+	mutex = get_mutex(M_MEAL);
+	pthread_mutex_destroy(mutex);
+	mutex = get_mutex(M_PHILO);
 	pthread_mutex_destroy(mutex);
 }

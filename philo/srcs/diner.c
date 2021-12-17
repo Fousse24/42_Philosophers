@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/14 13:59:25 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:01:50 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,31 @@ void	init_diner(t_diner *diner)
 {
 	if (!diner)
 		return ;
-	diner->philo_n = PHILO_N;
-	diner->philo_n_eat = PHILO_N_EAT;
-	diner->t_die = PHILO_T_DIE * 1000;
-	diner->t_eat = PHILO_T_EAT * 1000;
-	diner->t_sleep = PHILO_T_SLEEP * 1000;
-	diner->all_forks = NULL;
-	diner->n_meal = diner->philo_n / 2;
+	diner->philo_n = -1;
+	diner->philo_n_eat = -1;
+	diner->t_die = -1;
+	diner->t_eat = -1;
+	diner->t_sleep = -1;
+	diner->n_meal = 0;
 	diner->diner_done = 0;
-	diner->next_odd_id = 0;
+	diner->next_odd_id = -1;
+	diner->time_eaten = 0;
+	diner->all_forks = NULL;
 	diner->philos = NULL;
 }
 
 void	diner_first_service(t_diner *diner)
 {
-	t_philo **philos;
+	t_philo	**philos;
 	t_philo	*philo;
 
 	if (!diner || !diner->philos)
-		return;
+		return ;
 	philos = diner->philos;
 	while (*philos && diner->n_meal > 0)
 	{
 		philo = *philos;
-		if (philo->id % 2 != 1)
+		if (philo->id % 2 != 1 || diner->philo_n == 1)
 		{
 			philo->next_meal = diner->cur_meal;
 			diner->n_meal--;
@@ -48,7 +49,7 @@ void	diner_first_service(t_diner *diner)
 			philo->next_meal = diner->cur_meal + get_t_eat();
 		philos++;
 	}
-	diner->n_meal = diner->philo_n / 2;
+	diner->n_meal = diner->philo_n;
 	diner->next_meal = diner->cur_meal + get_t_eat();
 	if (*philos)
 	{
@@ -84,4 +85,16 @@ t_diner	*get_diner(void)
 		init_diner(diner);
 	}
 	return (diner);
+}
+
+void	free_diner(t_diner *diner)
+{
+	if (!diner)
+	{
+		if (diner->philos)
+			ft_free_array((void **)diner->philos, free);
+		if (diner->all_forks)
+			ft_free_array((void **)diner->all_forks, free);
+		free(diner);
+	}
 }

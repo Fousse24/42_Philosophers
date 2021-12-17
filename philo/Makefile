@@ -6,7 +6,7 @@
 #    By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 20:58:38 by sfournie          #+#    #+#              #
-#    Updated: 2021/12/14 13:43:14 by sfournie         ###   ########.fr        #
+#    Updated: 2021/12/16 15:36:41 by sfournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,8 @@ _SRCS	= threads.c mutex.c dinertime_thread.c \
 		philo.c \
 		philo_fork.c philo_states.c \
 		diner.c diner_utils.c diner_meal.c\
-		ft_time.c ft_time_math.c get_time_limits.c \
-		utils.c
+		ft_time.c ft_time_math.c \
+		utils.c get_options.c parse.c parse_utils.c
 SRCS	= $(patsubst %, $(D_SRCS)/%, $(_SRCS))
 
 # Objects

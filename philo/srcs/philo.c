@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:17:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/14 00:47:56 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:49:51 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 // initialize the values of a philosopher object
 void	init_philo(t_philo *philo, int id)
 {
-	t_time	*start_time;
-
 	if (!philo)
 		return ;
 	if (get_diner())

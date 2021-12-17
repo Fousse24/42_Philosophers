@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/14 14:23:08 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:59:16 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	set_next_meal(t_diner *diner, t_philo *philo)
 {
 	if (!diner || !philo)
 		return ;
-	if (get_t_eat() < get_t_sleep())
+	if (get_t_eat() < get_t_sleep() || diner->philo_n == 1)
 		philo->next_meal += get_t_eat() + get_t_sleep();
 	else
 		philo->next_meal += get_t_eat() * 2;
@@ -40,13 +40,13 @@ int	get_meal(t_diner *diner, t_philo *philo)
 	pthread_mutex_lock(get_mutex(M_FORK));
 	if (is_allowed_to_eat(diner, philo))
 	{
-		// if (!diner->odd_philo)
-		// if (diner->odd_philo == philo)
-		// 	diner->odd_philo = NULL;
-		
-
+		diner->n_meal--;
+		if (diner->n_meal == 0)
+		{
+			diner->n_meal = diner->philo_n;
+			diner->time_eaten++;
+		}
 		give_forks(philo);
-		
 		ret = 1;
 	}
 	pthread_mutex_unlock(get_mutex(M_FORK));

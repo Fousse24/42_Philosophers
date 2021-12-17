@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:51:34 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 22:56:51 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:42:59 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_time	get_start_time(void)
 
 long long	get_cur_time(void)
 {
-	t_time now;
+	t_time	now;
 
 	gettimeofday(&now, NULL);
 	return (time_to_long(now));
