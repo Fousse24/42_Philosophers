@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 19:42:25 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:18:50 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static int	parse_error(int error_code)
 	}
 	if (error_code == ERROR_ARGV)
 	{
-		printf("Arguments invalid : non-numerical arguments detected\n");
+		printf("Arguments invalid : non-numerical or negative arguments\n");
 		printf("\nOnly positive numerical arguments are allowed.\n");
-		printf("A number must only contain digits (no signs nor spaces\n)");
+		printf("A number must only contain digits (no signs nor spaces)\n");
 	}
 	if (error_code == ERROR_NP)
 		printf("Arguments invalid : must have at least 1 philosopher\n");
@@ -72,7 +72,7 @@ int	parse_argv(int argn, char **argv)
 	argv_int = (int *)ft_calloc(6, sizeof(int));
 	while (argv && argv[i])
 	{
-		if (!ft_isnumber(*argv))
+		if (!ft_isnumber(argv[i]))
 		{
 			error = ERROR_ARGV;
 			break ;
