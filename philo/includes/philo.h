@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:14:03 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 19:51:19 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:07:41 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,10 @@ struct s_philo
 {
 	int			id;
 	int			state;
-	int			is_odd;
 	long long	timestamp;
 	t_fork		*right_fork;
 	t_fork		*left_fork;
 	int			times_eaten;
-	long long	thread_cd;
 	long long	next_sleep;
 	long long	next_think;
 	long long	cur_meal;
@@ -105,7 +103,6 @@ void		philo_state_manager(t_philo *philo);
 void		philo_change_state(t_philo *philo, int state, long long stamp);
 void		philo_print_state(t_philo *philo, int state);
 void		philo_set_next_act(t_philo *philo, long long time);
-int			philo_can_act(t_philo *philo);
 
 /* Diner */
 t_diner		*get_diner(void);
@@ -128,7 +125,7 @@ t_time		long_to_time(long long ms);
 void		copy_time(t_time *src, t_time *dest);
 long long	create_t_stamp(t_time time, int offset, int pre_offset);
 
-/* Time limits for philosophers states */
+/* Options and times for philosophers */
 long long	get_t_sleep(void);
 long long	get_t_eat(void);
 long long	get_t_die(void);

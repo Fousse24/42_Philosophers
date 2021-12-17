@@ -6,29 +6,11 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 20:01:43 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:05:58 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"philo.h"
-
-int	philo_can_act(t_philo *philo)
-{
-	t_diner	*diner;
-	t_philo	**philos;
-
-	diner = get_diner();
-	if (!diner || !philo || !diner->philos)
-		return (0);
-	philos = diner->philos;
-	while (*philos)
-	{
-		if ((*philos)->next_action < philo->next_action)
-			return (0);
-		philos++;
-	}
-	return (1);
-}
 
 void	*philo_dinertime(void *philo_ptr)
 {
@@ -41,7 +23,6 @@ void	*philo_dinertime(void *philo_ptr)
 	philo_set_next_act(philo, philo->next_meal);
 	while (philo->state != DEAD)
 	{	
-		philo->thread_cd = THREAD_CD;
 		philo_state_manager(philo);
 		usleep(THREAD_CD);
 	}
