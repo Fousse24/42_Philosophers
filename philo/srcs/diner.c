@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 20:01:50 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 17:02:22 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_diner	*get_diner(void)
 
 void	free_diner(t_diner *diner)
 {
-	if (!diner)
+	if (diner)
 	{
 		if (diner->philos)
 			ft_free_array((void **)diner->philos, free);

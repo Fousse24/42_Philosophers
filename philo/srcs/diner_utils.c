@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 19:44:27 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 17:25:36 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	give_forks(t_philo *philo)
 {
+	philo->timestamp = philo->next_meal - time_to_long(get_start_time());
 	philo->left_fork->owner = philo;
 	philo_print_state(philo, FORK);
 	philo->right_fork->owner = philo;

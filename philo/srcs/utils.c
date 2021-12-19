@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 22:43:48 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 19:08:44 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 17:10:19 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	*ft_free_array(void **ptr, void (f)(void *))
 	i = 0;
 	if (ptr == NULL)
 		return (NULL);
-	if (ptr != NULL && ptr[i] != NULL && f != NULL)
+	while (ptr != NULL && ptr[i] != NULL && f != NULL)
 	{
-		f(ptr[i]);
+		f(ptr[i++]);
 	}
 	free(ptr);
 	return (NULL);

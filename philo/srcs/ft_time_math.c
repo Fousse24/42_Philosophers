@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:51:34 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 19:42:54 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 14:14:45 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,14 @@ t_time	long_to_time(long long n)
 	time.tv_sec = n / 1000000;
 	time.tv_usec = n % 1000000;
 	return (time);
+}
+
+long long	get_philo_cd(t_philo *philo)
+{
+	long long	cd;
+
+	cd = philo->next_action - get_cur_time();
+	if (cd < THREAD_CD)
+		cd = THREAD_CD;
+	return (cd);
 }

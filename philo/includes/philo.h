@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:14:03 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 20:07:41 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 14:10:38 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ long long	time_to_long(t_time time);
 t_time		long_to_time(long long ms);
 void		copy_time(t_time *src, t_time *dest);
 long long	create_t_stamp(t_time time, int offset, int pre_offset);
+long long	get_philo_cd(t_philo *philo);
 
 /* Options and times for philosophers */
 long long	get_t_sleep(void);
