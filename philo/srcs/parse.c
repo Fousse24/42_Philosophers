@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/19 19:01:57 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 20:10:26 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	parse_error(int error_code)
 		printf("2 - time_to_die\n");
 		printf("3 - time_to_eat\n");
 		printf("4 - time_to_sleep\n");
-		printf("1 - number_of_times_each_philosopher_must_eat (optional)\n");
+		printf("5 - number_of_times_each_philosopher_must_eat (optional)\n");
 		printf("\nExample : ./philo 4 401 100 200 10\n");
 	}
 	if (error_code == ERROR_ARGV)
