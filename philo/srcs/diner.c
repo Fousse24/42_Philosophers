@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/19 17:02:22 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:55:09 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ void	free_diner(t_diner *diner)
 		if (diner->philos)
 			ft_free_array((void **)diner->philos, free);
 		if (diner->all_forks)
-			ft_free_array((void **)diner->all_forks, free);
+		{
+			ft_free_array((void **)diner->all_forks, fork_clear);
+		}
 		free(diner);
 	}
 }

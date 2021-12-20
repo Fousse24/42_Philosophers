@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:14:03 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/19 14:10:38 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:56:53 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ enum e_state
 enum e_mutex
 {
 	M_PRINT,
-	M_FORK,
 	M_MEAL,
 	M_PHILO
 };
@@ -91,6 +90,7 @@ struct s_fork
 {
 	int		id;
 	void	*owner;
+	t_mutex	mutex;
 };
 
 /* Philosophers */
@@ -150,6 +150,8 @@ t_fork		*create_fork(void *owner, int id);
 t_fork		**create_fork_array(int n);
 void		assign_forks(t_fork **forks, t_philo **philos);
 void		give_forks(t_philo *philo);
+void		fork_clear(void *ptr);
+void		change_fork_owner(t_fork *fork, t_philo *philo);
 
 /* Utils */
 void		*ft_calloc(size_t num, size_t size);

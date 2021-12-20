@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 19:59:16 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:56:12 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	get_meal(t_diner *diner, t_philo *philo)
 
 	ret = 0;
 	pthread_mutex_lock(get_mutex(M_MEAL));
-	pthread_mutex_lock(get_mutex(M_FORK));
 	if (is_allowed_to_eat(diner, philo))
 	{
 		diner->n_meal--;
@@ -49,7 +48,6 @@ int	get_meal(t_diner *diner, t_philo *philo)
 		give_forks(philo);
 		ret = 1;
 	}
-	pthread_mutex_unlock(get_mutex(M_FORK));
 	pthread_mutex_unlock(get_mutex(M_MEAL));
 	return (ret);
 }

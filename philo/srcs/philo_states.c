@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 21:06:58 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/19 17:26:18 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 20:06:30 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	philo_print_state(t_philo *philo, int state)
 	if (!philo)
 		return ;
 	pthread_mutex_lock(get_mutex(M_PRINT));
-	printf("\n");
 	if (state == THINKING)
 		printf("%lld %d is thinking", philo->timestamp / 1000, philo->id);
 	else if (state == SLEEPING)
@@ -96,6 +95,7 @@ void	philo_print_state(t_philo *philo, int state)
 		printf("%lld %d died", philo->timestamp / 1000, philo->id);
 		get_diner()->diner_done = 1;
 	}
+	printf("\n");
 	if (state != DEAD && !get_diner()->diner_done)
 		pthread_mutex_unlock(get_mutex(M_PRINT));
 }

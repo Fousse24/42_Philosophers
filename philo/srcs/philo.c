@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:17:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/16 20:06:21 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:30:38 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	init_philo(t_philo *philo, int id)
 	if (get_diner())
 	philo->id = id;
 	philo->timestamp = 0;
-	philo->left_fork = 0;
-	philo->right_fork = 0;
+	philo->left_fork = NULL;
+	philo->right_fork = NULL;
 	philo->times_eaten = 0;
 	philo->next_death = 0;
 	philo->next_think = 0;

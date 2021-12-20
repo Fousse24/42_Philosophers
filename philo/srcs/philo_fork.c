@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 13:15:33 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/19 17:03:53 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 20:06:00 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,18 @@ t_fork	*create_fork(void *owner, int id)
 	if (fork)
 	{
 		init_fork(fork, id);
-		if (owner)
-			fork->owner = owner;
+		fork->owner = owner;
+		pthread_mutex_init(&fork->mutex, NULL);
 	}
 	return (fork);
+}
+
+void	change_fork_owner(t_fork *fork, t_philo *philo)
+{
+	pthread_mutex_lock(&fork->mutex);
+	if (!fork->owner)
+		fork->owner = philo;
+	pthread_mutex_unlock(&fork->mutex);
 }
 
 t_fork	**create_fork_array(int n)
@@ -50,25 +58,8 @@ t_fork	**create_fork_array(int n)
 	return (forks);
 }
 
-// Place the forks in-between each philosophers.
-void	assign_forks(t_fork **forks, t_philo **philos)
+void	fork_clear(void *ptr)
 {
-	t_philo	*philo_right;
-	int		i;
-	int		size;
-
-	if (!forks || !philos)
-		return ;
-	size = ft_array_size((void **)philos);
-	i = 0;
-	while (size > 0 && forks[i] && philos[i])
-	{
-		if (i == size - 1)
-			philo_right = philos[0];
-		else
-			philo_right = philos[i + 1];
-		philo_right->left_fork = forks[i];
-		philos[i]->right_fork = forks[i];
-		i++;
-	}
+	pthread_mutex_destroy(&((t_fork *)ptr)->mutex);
+	free(ptr);
 }

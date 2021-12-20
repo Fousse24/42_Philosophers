@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/19 15:00:43 by sfournie         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:01:57 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static int	set_options(int *args_int, int argn)
 		return (parse_error(ERROR_NP));
 	diner->philo_n = args_int[0];
 	diner->t_die = args_int[1] * 1000;
-	diner->t_sleep = args_int[2] * 1000;
-	diner->t_eat = args_int[3] * 1000;
+	diner->t_eat = args_int[2] * 1000;
+	diner->t_sleep = args_int[3] * 1000;
 	if (argn == 5)
 		diner->philo_n_eat = args_int[4];
 	diner->n_meal = diner->philo_n / 2;
