@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:52:26 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/19 17:11:46 by sfournie         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:55:25 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@ int	main(int argn, char **argv)
 		start_diner_thread(diner);
 		pthread_join(diner->thread, NULL);
 	}
+	else if (diner)
+		free(diner);
 	return (0);
 }

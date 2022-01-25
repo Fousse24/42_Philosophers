@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:22:02 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/13 22:40:44 by sfournie         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:34:15 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,20 @@ void	start_philo_threads(t_philo **philos)
 		i++;
 		if (error++ == INT_MAX)
 			return ;
+	}
+}
+
+void	kill_philo_threads(t_philo **philos)
+{
+	int	i;
+
+	if (!philos)
+		return ;
+	i = 0;
+	while (philos && philos[i])
+	{
+		pthread_kill(philos[i]->thread, 0);
+		i++;
 	}
 }
 

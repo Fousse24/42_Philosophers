@@ -6,7 +6,7 @@
 /*   By: sfournie <sfournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:14:03 by sfournie          #+#    #+#             */
-/*   Updated: 2021/12/19 19:56:53 by sfournie         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:34:52 by sfournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int			get_n_eat(void);
 
 /* Threads functions */
 void		start_philo_threads(t_philo **philos);
+void		kill_philo_threads(t_philo **philos);
 void		start_diner_thread(t_diner *diner);
 void		*philo_dinertime(void *philo_ptr);
 void		*waiter_dinertime(void *diner_ptr);
